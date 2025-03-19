@@ -25,16 +25,16 @@
         </div>
 
         <!-- Add Contribution Button -->
-        <a href="{{ route('contributions.create') }}" class="bg-blue-500 text-white px-4 py-2">Add Contribution</a>
+        <a href="{{ route('contributions.create') }}" class="bg-blue-500 text-white px-4 py-2">Ajout Contribution</a>
     </div>
 
     <!-- Total Balance Per Fund -->
-    <h2 class="text-xl font-bold mb-4">Total Balance Per Fund</h2>
+    <h2 class="text-xl font-bold mb-4">Solde des Caisses</h2>
     <div id="fundBalancesGrid" class="grid grid-cols-1 md:grid-cols-3 gap-4 mb-8">
         @foreach ($funds as $fund)
         <div class="bg-gray-100 p-4 rounded-lg text-center">
             <h3 class="font-bold mb-2">{{ $fund->name }} ({{ ucfirst($fund->type) }})</h3>
-            <p class="text-2xl font-bold">${{ number_format($fund->balance, 2) }}</p>
+            <p class="text-2xl font-bold">{{ number_format($fund->balance, 2) }} Fcfa</p>
         </div>
         @endforeach
     </div>
@@ -43,11 +43,11 @@
     <table id="contributionsTable" class="w-full border-collapse">
         <thead>
             <tr class="bg-gray-200">
-                <th class="p-2">Member</th>
-                <th class="p-2">Fund</th>
-                <th class="p-2">Amount</th>
+                <th class="p-2">Membre</th>
+                <th class="p-2">Caisse</th>
+                <th class="p-2">Montant</th>
                 <th class="p-2">Date</th>
-                <th class="p-2">Host</th>
+                <th class="p-2">Hôte</th>
                 <th class="p-2">Actions</th>
             </tr>
         </thead>
@@ -56,7 +56,7 @@
             <tr class="border-b">
                 <td class="p-2">{{ $contribution->member->name }}</td>
                 <td class="p-2">{{ $contribution->fund->name }}</td>
-                <td class="p-2">${{ number_format($contribution->amount, 2) }}</td>
+                <td class="p-2">{{ number_format($contribution->amount, 2) }} Fcfa</td>
                 <td class="p-2">{{ $contribution->date }}</td>
                 <td class="p-2">{{ $contribution->host ?? '-' }}</td>
                 <td class="p-2 space-x-2">
@@ -103,7 +103,7 @@ document.addEventListener('DOMContentLoaded', function () {
                             <tr class="border-b">
                                 <td class="p-2">${contribution.member_name}</td>
                                 <td class="p-2">${contribution.fund_name}</td>
-                                <td class="p-2">$${parseFloat(contribution.amount).toFixed(2)}</td>
+                                <td class="p-2">${parseFloat(contribution.amount).toFixed(2)} Fcfa</td>
                                 <td class="p-2">${contribution.date}</td>
                                 <td class="p-2">${contribution.host || '-'}</td>
                                 <td class="p-2 space-x-2">
@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     const card = `
                         <div class="bg-gray-100 p-4 rounded-lg text-center">
                             <h3 class="font-bold mb-2">${fund.name} (${fund.type})</h3>
-                            <p class="text-2xl font-bold">$${parseFloat(fund.balance).toFixed(2)}</p>
+                            <p class="text-2xl font-bold">${parseFloat(fund.balance).toFixed(2)} Fcfa</p>
                         </div>
                     `;
                     fundBalancesGrid.insertAdjacentHTML('beforeend', card);

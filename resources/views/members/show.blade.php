@@ -8,7 +8,8 @@
         <!-- Member Information -->
     <div class="mb-8">
         <h2 class="text-xl font-bold mb-2">{{ $member->name }}</h2>
-        <p class="text-gray-600">Balance: ${{ number_format($member->balance, 2) }}</p>
+        <p class="text-gray-600">Balance: {{ number_format($member->balance, 2) }} Fcfa
+        </p>
     </div>
     <a href="{{ route('members.index') }}" class="mt-6 inline-block bg-blue-500 text-white px-4 py-2">Back to Members</a>
 

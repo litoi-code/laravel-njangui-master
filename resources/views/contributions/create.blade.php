@@ -2,7 +2,12 @@
 
 @section('content')
 <div class="bg-white shadow-md rounded-lg p-6 max-w-4xl mx-auto">
-    <h1 class="text-2xl font-bold mb-4">Add Contribution</h1>
+    <div class="flex justify-between items-center mb-4">
+
+        <h1 class="text-2xl font-bold mb-4">Add Contribution</h1>
+        
+
+    </div>
 
     @if(session('success'))
         <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative mb-4" role="alert">
@@ -27,7 +32,7 @@
 
             <!-- Total Amount to Contribute -->
             <div>
-                <label for="total_amount" class="block text-sm font-medium mb-2">Total Amount to Contribute</label>
+                <label for="total_amount" class="block text-sm font-medium mb-2">Montant total à distribuer</label>
                 <input 
                     type="text" 
                     id="total_amount" 
@@ -42,11 +47,11 @@
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
             <!-- Host Selection -->
             <div>
-                <label for="host" class="block text-sm font-medium mb-2">Host (Optional)</label>
+                <label for="host" class="block text-sm font-medium mb-2">Hôte (Optional)</label>
                 <select id="host" name="host" class="border p-2 w-full">
                     <option value="">None</option>
                     @foreach ($members as $member)
-                        @if ($loop->iteration == 8)
+                        @if ($loop->iteration == 9)
                             <option value="{{ $member->name }}" selected>{{ $member->name }}</option>
                         @else
                             <option value="{{ $member->name }}">{{ $member->name }}</option>

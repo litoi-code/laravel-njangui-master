@@ -45,12 +45,20 @@ class LoanController extends Controller
         $amount = $validated['amount'];
         $interestRate = $validated['interest_rate'];
         $startDate = \Carbon\Carbon::parse($validated['start_date']);
-        $startDateForLoan = clone $startDate;
+        // $startDateForLoan = clone $startDate;
         $currentDate = \Carbon\Carbon::now();
         $elapsedMonths = ($currentDate->format('Y') - $startDate->format('Y')) * 12 + ($currentDate->format('m') - $startDate->format('m'));
+        if ($elapsedMonths < 0) {
+            $elapsedMonths = 0;
+        }
         $totalInterest = ($amount * $interestRate / 100) * $elapsedMonths;
-        $totalAmount = $amount + $totalInterest;
-        $remainingBalance = $totalAmount;
+        if ($elapsedMonths == 0) {
+            $totalAmount = $amount;
+            $remainingBalance = $amount;
+        } else {
+            $totalAmount = $amount + $totalInterest;
+            $remainingBalance = $totalAmount;
+        }
 
         // Create the loan
         $loan = Loan::create(array_merge($validated, [
@@ -63,7 +71,7 @@ class LoanController extends Controller
         $fund->balance -= $validated['amount'];
         $fund->save();
 
-        return redirect()->route('loans.create')->with('success', 'Loan issued successfully.');
+        return redirect()->route('loans.index')->with('success', 'Loan issued successfully.');
     }
 
     // Repay a loan
@@ -82,20 +90,12 @@ class LoanController extends Controller
 
         // Deduct repayment from remaining balance
         $loan->remaining_balance -= $repaymentAmount;
+        // $loan->refresh();
 
         // Update fund balance (add repayment amount)
         $fund = Fund::find($loan->fund_id);
         $fund->balance += $repaymentAmount;
         $fund->save();
-
-        // Mark loan as repaid if remaining balance is zero
-        if ($loan->remaining_balance <= 0) {
-            $loan->remaining_balance = 0;
-            $loan->save();
-            return redirect()->route('loans.index')->with('success', 'Loan fully repaid.');
-        }
-
-        $loan->save();
 
         // Create a repayment record
         $repayment = new \App\Models\Repayment();
@@ -104,6 +104,12 @@ class LoanController extends Controller
         $repayment->date = now();
         $repayment->save();
 
+        // Mark loan as repaid if remaining balance is zero
+        if ($loan->remaining_balance <= 0) {
+            $loan->remaining_balance = 0;
+        }
+
+        $loan->save();
         return redirect()->route('loans.index')->with('success', 'Loan repayment recorded successfully.');
     }
 

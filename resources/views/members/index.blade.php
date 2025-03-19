@@ -3,15 +3,15 @@
 @section('content')
 <div class="bg-white shadow-md rounded-lg p-6">
     <div class="flex justify-between items-center mb-4">        
-        <h1 class="text-2xl font-bold mb-4">Members</h1>
-        <a href="{{ route('members.create') }}" class="bg-blue-500 text-white px-4 py-2 mb-4 inline-block">Add Member</a>
+        <h1 class="text-2xl font-bold mb-4">Membres</h1>
+        <a href="{{ route('members.create') }}" class="bg-blue-500 text-white px-4 py-2 mb-4 inline-block">Ajouter un Membres</a>
     </div>
     <table class="w-full border-collapse">
         <thead>
             <tr class="bg-gray-200">
                 <th class="p-2">#</th>
-                <th class="p-2">Name</th>
-                <th class="p-2">Balance</th>
+                <th class="p-2">Nom</th>
+                <th class="p-2">Solde</th>
                 <th class="p-2">Actions</th>
             </tr>
         </thead>
@@ -20,7 +20,7 @@
             <tr class="border-b">
                 <td class="p-2">{{ $member->id }}</td>
                 <td class="p-2">{{ $member->name }}</td>
-                <td class="p-2">${{ number_format($member->balance, 2) }}</td>
+                <td class="p-2">{{ number_format($member->balance, 2) }} Fcfa</td>
                 <td class="p-2 space-x-2">
                     <!-- View Details Link -->
                     <a href="{{ route('members.show', $member) }}" class="text-blue-500 hover:underline">View Details</a>
